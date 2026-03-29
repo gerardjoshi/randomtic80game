@@ -48,6 +48,7 @@ Because TIC-80 retains global variables in memory until the cartridge is fully r
 
 ***
 
+```mermaid
 stateDiagram-v2
     direction TB
     
@@ -60,7 +61,7 @@ stateDiagram-v2
     MSG --> GAME : msg_timer <= 0
     
     GAME --> PAUSE : btnp(7) [Start/Tab]
-    GAME --> DYING : lives <= 0 OR score < 0
+    GAME --> DYING : lives <= 0 OR score <= 0
     
     PAUSE --> GAME : btnp(4) [Z Key]
     PAUSE --> TITLE : btnp(5) [X Key]
@@ -68,3 +69,4 @@ stateDiagram-v2
     DYING --> GAMEOVER : game_over_timer <= 0
     
     GAMEOVER --> TITLE : btnp(4) [Z Key]
+```
