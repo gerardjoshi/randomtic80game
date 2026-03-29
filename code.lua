@@ -1,6 +1,6 @@
 -- title:  Defend the Dept (The Ultimate Master)
--- author: Gerard, Varun, Rithik, Riithvic, Pasanth
--- desc:   PvZ lane shooter (Balanced + UI + Powerups + Custom Art) based on NIT Trichy Lore (97% accuracy)
+-- author: You, Rithik, Pasanth, Varun & Joshi
+-- desc:   PvZ lane shooter (Balanced + UI + Powerups + Custom Art)
 -- script: lua
 
 -- GLOBAL VARIABLES
