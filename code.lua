@@ -229,6 +229,26 @@ function drawWeapon3(x, y, scale)
     R(0,2,3,2,ARM) R(3,2,4,2,GUN) P(6,2,MUZZLE) P(4,4,GUN)
 end
 
+function drawBattery(x, y, l)
+    -- Battery Case (White Outline)
+    rect(x, y, 14, 8, 15) 
+    rect(x+14, y+2, 2, 4, 15) -- The positive terminal tip
+    rect(x+1, y+1, 12, 6, 0)  -- Clear the inside (Black)
+    
+    -- Color Logic based on "Charge" (Lives)
+    local c = 6 -- Green (Healthy)
+    if l == 1 then 
+        c = 2 -- Red (Critical)
+    elseif l == 2 then 
+        c = 4 -- Yellow (Warning)
+    end
+    
+    -- Fill the battery (Each life = 4 pixels of width)
+    if l > 0 then 
+        rect(x+1, y+1, l * 4, 6, c) 
+    end
+end
+
 --------------------------------------------------
 -- PROJECTILES & ENEMIES
 --------------------------------------------------
@@ -363,7 +383,7 @@ function updateGame()
 
         if collide(p, player, 8) then
             if p.type == "shield" then player.shield = 1
-            elseif p.type == "heart" then if lives < 5 then lives = lives + 1 end
+            elseif p.type == "heart" then if lives < 3 then lives = lives + 1 end
             else player.fire_rate_boost_timer = 300 end
             table.remove(powerups, i)
         elseif p.x < 0 then
@@ -460,7 +480,7 @@ end
 function drawUI()
     print("SCORE: "..score, 5, 5, 12)
     print("LVL: "..math.floor(difficulty), 150, 5, 11)
-    for i=1, lives do spr(6, 200 + (i*10), 4, 0) end
+    drawBattery(210, 4, lives)
 
     if player.fire_rate_boost_timer > 0 then printCenter("HIGH VOLTAGE!", 15, 10, 1) end
     if player.shield > 0 then printCenter("ATTENDANCE REQUIREMENT: 75%", 25, 11, 1, true) end
