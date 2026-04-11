@@ -70,3 +70,67 @@ stateDiagram-v2
     
     GAMEOVER --> TITLE : btnp(4) [Z Key]
 ```
+also 
+
+```mermaid
+graph LR
+%% -------------------------------------------------------------------
+%% Define the Wings
+%% -------------------------------------------------------------------
+
+    subgraph GuestISA [GUEST ISA - Source]
+        G1[ARM Code: LDR R0, [R1]]
+        G2[ARM Code: ADD R0, R1, R2]
+        G3[ARM Code: SVC #SystemCall]
+        G_State[Guest State: Registers, PC, Memory]
+    end
+
+    subgraph EmulationPoint [KERNEL EMULATION - Convergence]
+        Trap_Entry((HOST HARDWARE TRAP)):::entry
+        E_Core{{EMULATION CORE}}:::core
+        
+        subgraph InternalTable [Emulation Table Mapping]
+            T1[Fetch Guest Opcode]
+            T2[Map Instruction Class]
+            T3[Synthesize Native Code]
+            T4[Update Guest Context]
+        end
+    end
+
+    subgraph HostISA [HOST ISA - Destination]
+        H_Sched[Kernel Scheduler]
+        H1[Synthesize: x86 MOV EAX, [EBX]]
+        H2[Synthesize: x86 ADD EAX, EBX]
+        H3[Synthesize: x86 Syscall Path]
+        H_State[Host State: Registers, Memory]
+    end
+
+%% -------------------------------------------------------------------
+%% Define Connections (The Flow)
+%% -------------------------------------------------------------------
+
+%% Input to Trap
+    G1 --> Trap_Entry
+    G2 --> Trap_Entry
+    G3 --> Trap_Entry
+    G_State --> Trap_Entry
+
+%% Trap to Core
+    Trap_Entry --> E_Core
+
+%% Core through Table
+    E_Core --> InternalTable
+    InternalTable --> E_Core
+
+%% Core to Destination
+    E_Core --> H_Sched
+    H_Sched --> H1
+    H_Sched --> H2
+    H_Sched --> H3
+    E_Core --> H_State
+
+%% Styling for visualization
+    classDef entry fill:#fff,stroke:#333,stroke-width:2px;
+    classDef core fill:#eee,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5;
+
+```
