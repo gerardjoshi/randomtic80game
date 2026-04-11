@@ -79,10 +79,10 @@ graph LR
 %% -------------------------------------------------------------------
 
     subgraph GuestISA [GUEST ISA - Source]
-        G1[ARM Code: LDR R0, [R1]]
-        G2[ARM Code: ADD R0, R1, R2]
-        G3[ARM Code: SVC #SystemCall]
-        G_State[Guest State: Registers, PC, Memory]
+        G1["ARM Code: LDR R0, [R1]"]
+        G2["ARM Code: ADD R0, R1, R2"]
+        G3["ARM Code: SVC #SystemCall"]
+        G_State["Guest State: Registers, PC, Memory"]
     end
 
     subgraph EmulationPoint [KERNEL EMULATION - Convergence]
@@ -90,19 +90,19 @@ graph LR
         E_Core{{EMULATION CORE}}:::core
         
         subgraph InternalTable [Emulation Table Mapping]
-            T1[Fetch Guest Opcode]
-            T2[Map Instruction Class]
-            T3[Synthesize Native Code]
-            T4[Update Guest Context]
+            T1["Fetch Guest Opcode"]
+            T2["Map Instruction Class"]
+            T3["Synthesize Native Code"]
+            T4["Update Guest Context"]
         end
     end
 
     subgraph HostISA [HOST ISA - Destination]
-        H_Sched[Kernel Scheduler]
-        H1[Synthesize: x86 MOV EAX, [EBX]]
-        H2[Synthesize: x86 ADD EAX, EBX]
-        H3[Synthesize: x86 Syscall Path]
-        H_State[Host State: Registers, Memory]
+        H_Sched["Kernel Scheduler"]
+        H1["Synthesize: x86 MOV EAX, [EBX]"]
+        H2["Synthesize: x86 ADD EAX, EBX"]
+        H3["Synthesize: x86 Syscall Path"]
+        H_State["Host State: Registers, Memory"]
     end
 
 %% -------------------------------------------------------------------
